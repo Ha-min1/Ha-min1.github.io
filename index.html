@@ -75,6 +75,11 @@
             .link-mail { color: #fff;
                         text-decoration: underline; 
                         text-underline-offset: 3px; 
+            .icon-img {
+    width: 40px;   /* 원하는 크기 */
+    height: 40px;  /* 정사각형 맞추기 */
+    object-fit: contain; /* 이미지 찌그러지지 않게 */
+}
         }
     </style>
 </head>
@@ -83,9 +88,11 @@
         <h1>Sites Collector<span style="font-size:14px; font-weight:600; opacity:.9;">· Developer Hamin</span></h1>
         
         <div class="app-grid">
-            <a href="https://www.google.com" class="app-button" target="_blank">
-                <div class="app-icon">🔍</div>
-                <div class="app-name">Google</div>
+            <a href="https://ssudorm.ssu.ac.kr:444/" class="app-button" target="_blank">
+                <div class="app-icon">
+                    <img src="SSU.png" alt="SSU 로고" class="icon-img">
+                </div>
+                <div class="app-name">SSU 기숙사</div>
             </a>
             
             <a href="https://www.naver.com" class="app-button" target="_blank">
@@ -93,10 +100,6 @@
                 <div class="app-name">Naver</div>
             </a>
             
-            <a href="https://www.daum.net" class="app-button" target="_blank">
-                <div class="app-icon">📰</div>
-                <div class="app-name">Daum</div>
-            </a>
             
             <a href="https://www.youtube.com" class="app-button" target="_blank">
                 <div class="app-icon">▶️</div>
