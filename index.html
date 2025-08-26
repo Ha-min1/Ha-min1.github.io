@@ -65,12 +65,22 @@
             padding: 20px;
             margin-top: 40px;
             text-align: left;
+            .badge { display: inline-block; 
+                    padding: 6px 10px; 
+                    border-radius: 999px; 
+                    background: rgba(255,255,255,0.18); 
+                    border: 1px solid rgba(255,255,255,0.35); 
+                    font-size: 12px; letter-spacing: .3px; margin-bottom: 12px; 
+                   } 
+            .link-mail { color: #fff;
+                        text-decoration: underline; 
+                        text-underline-offset: 3px; 
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>내 사이트 모음</h1>
+        <h1>Sites Collector<span style="font-size:14px; font-weight:600; opacity:.9;">· Developer Hamin</span></h1>
         
         <div class="app-grid">
             <a href="https://www.google.com" class="app-button" target="_blank">
@@ -109,14 +119,23 @@
         </div>
         
         <div class="instructions">
-            <h3>📱 iOS에 앱으로 설치하기</h3>
+             <div class="badge">
+    <a href="https://github.com/Ha-min1" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">
+              Developer · Hamin
+    </a>
+             </div>
+            <h3>📱 iOS에 앱으로 설치하는 법</h3>
             <ol>
                 <li>Safari 브라우저에서 이 페이지 열기</li>
                 <li>공유 버튼(⬆️) 누르기</li>
                 <li>"홈 화면에 추가" 선택하기</li>
                 <li>추가 버튼 누르기</li>
             </ol>
-            <p>이제 아이콘을 눌러서 바로 사이트에 접속할 수 있습니다!</p>
+            <p>추가된 아이콘을 통해 접속할 수 있습니다/!</p>
+            <p>추가 문의는 <a target="_blank" rel="noreferrer noopener" 
+                          href="mailto:johamin3624@naver.com?subject=%5B문의%5D%20내%20사이트%20런처%20관련&amp;
+                          body=안녕하세요%20하민님%2C%0A%0A아래%20양식을%20참고해%20문의%20남겨주세요.%0A%0A-%20이름%3A%0A-%20문의%20주제%3A%0A-%20상세%20내용%3A%0A%0A감사합니다." 
+                          class="" aria-label="이메일로 문의하기" node="[object Object]">이메일로 문의하기</a>에서 작성해주세요!</p>
         </div>
     </div>
 
