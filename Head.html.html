@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>내 사이트 런처</title>
+    <meta name="theme-color" content="#4CAF50">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <style>
+        body {
+            font-family: 'Apple SD Gothic Neo', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: white;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        h1 {
+            margin-top: 40px;
+            margin-bottom: 40px;
+            font-size: 28px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        .app-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        .app-button {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 20px;
+            text-decoration: none;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s, background 0.2s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .app-button:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.3);
+        }
+        .app-icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+        .app-name {
+            font-weight: bold;
+            font-size: 16px;
+        }
+        .instructions {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 40px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>내 사이트 모음</h1>
+        
+        <div class="app-grid">
+            <a href="https://www.google.com" class="app-button" target="_blank">
+                <div class="app-icon">🔍</div>
+                <div class="app-name">Google</div>
+            </a>
+            
+            <a href="https://www.naver.com" class="app-button" target="_blank">
+                <div class="app-icon">🌐</div>
+                <div class="app-name">Naver</div>
+            </a>
+            
+            <a href="https://www.daum.net" class="app-button" target="_blank">
+                <div class="app-icon">📰</div>
+                <div class="app-name">Daum</div>
+            </a>
+            
+            <a href="https://www.youtube.com" class="app-button" target="_blank">
+                <div class="app-icon">▶️</div>
+                <div class="app-name">YouTube</div>
+            </a>
+            
+            <a href="https://mail.google.com" class="app-button" target="_blank">
+                <div class="app-icon">✉️</div>
+                <div class="app-name">Gmail</div>
+            </a>
+            
+            <a href="https://calendar.google.com" class="app-button" target="_blank">
+                <div class="app-icon">📅</div>
+                <div class="app-name">Calendar</div>
+            </a>
+            <a href="https://solved.ac/en" class="app-button" target="_blank">
+                <div class="app-icon">💻</div>
+                <div class="app-name">ProblemSolve</Solve></div>
+            </a>
+        </div>
+        
+        <div class="instructions">
+            <h3>📱 iOS에 앱으로 설치하기</h3>
+            <ol>
+                <li>Safari 브라우저에서 이 페이지 열기</li>
+                <li>공유 버튼(⬆️) 누르기</li>
+                <li>"홈 화면에 추가" 선택하기</li>
+                <li>추가 버튼 누르기</li>
+            </ol>
+            <p>이제 아이콘을 눌러서 바로 사이트에 접속할 수 있습니다!</p>
+        </div>
+    </div>
+
+    <script>
+        // PWA 등록
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('sw.js')
+                .then(function(registration) {
+                    console.log('ServiceWorker 등록 성공: ', registration.scope);
+                })
+                .catch(function(error) {
+                    console.log('ServiceWorker 등록 실패: ', error);
+                });
+            });
+        }
+        
+        // 각 버튼에 클릭 효과 추가
+        document.querySelectorAll('.app-button').forEach(button => {
+            button.addEventListener('click', function() {
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 200);
+            });
+        });
+    </script>
+</body>
+</html>
