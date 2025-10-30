@@ -3,103 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>USEFULWEB</title>
+    <title>USEFULWEB — 빠른 사이트 런처</title>
+    <meta name="description" content="자주 사용하는 사이트를 빠르게 여는 개인 런처입니다. PWA로 홈 화면에 추가할 수 있습니다.">
     <meta name="theme-color" content="#4CAF50">
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icons/icon-192.png">
-    <style>
-        body {
-            font-family: 'Apple SD Gothic Neo', sans-serif;
-            margin: 0;
-            padding: 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            color: white;
-        }
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            text-align: center;
-        }
-        h1 {
-            margin-top: 40px;
-            margin-bottom: 40px;
-            font-size: 28px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-        }
-        .app-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-        }
-        .app-button {
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            border-radius: 16px;
-            padding: 20px;
-            text-decoration: none;
-            color: white;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.2s, background 0.2s;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-        .app-button:hover {
-            transform: translateY(-5px);
-            background: rgba(255, 255, 255, 0.3);
-        }
-        .app-icon {
-            font-size: 40px;
-            margin-bottom: 10px;
-        }
-        .app-name {
-            font-weight: bold;
-            font-size: 16px;
-        }
-        .instructions {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            padding: 20px;
-            margin-top: 40px;
-            text-align: left;
-        }
-        .badge { display: inline-block; 
-                    padding: 6px 10px; 
-                    border-radius: 999px; 
-                    background: rgba(255,255,255,0.18); 
-                    border: 1px solid rgba(255,255,255,0.35); 
-                    font-size: 12px; letter-spacing: .3px; margin-bottom: 12px; 
-                   } 
-            .link-mail { color: #fff;
-                        text-decoration: underline; 
-                        text-underline-offset: 3px; 
-                       }
-            .icon-img {
-    width: 32px !important;   /* 원하는 크기 */
-    height: 32px !important;  /* 정사각형 맞추기 */
-    object-fit: contain; /* 이미지 찌그러지지 않게 */
-                display: block;
-                margin: 0 auto;
-                
-}
-    </style>
+    <link rel="icon" href="icons/icon-192.png">
+    <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
+    <a class="skip-link" href="#main">Skip to content</a>
     <div class="container">
-        <h1>Sites Collector<span style="font-size:14px; font-weight:600; opacity:.9;"></span></h1>
+        <header class="site-header">
+            <h1 class="site-title">Sites Collector</h1>
+            <p class="site-sub">자주 쓰는 사이트를 한 곳에 모아 빠르게 이동</p>
+        </header>
         
+        <main id="main">
         <div class="app-grid">
-            <a href="https://ssudorm.ssu.ac.kr:444/" class="app-button" target="_blank">
+            <a href="https://ssudorm.ssu.ac.kr:444/" class="app-button" target="_blank" rel="noopener noreferrer">
                 <div class="app-icon">
                     <img src="icons/SSU.png" alt="SSU 로고" class="icon-img">
                 </div>
                 <div class="app-name">SSU 기숙사</div>
             </a>
             
-            <a href="https://smartid.ssu.ac.kr/Symtra_sso/smln.asp?apiReturnUrl=https%3A%2F%2Fsaint.ssu.ac.kr%2FwebSSO%2Fsso.jsp" class="app-button" target="_blank">
+            <a href="https://smartid.ssu.ac.kr/Symtra_sso/smln.asp?apiReturnUrl=https%3A%2F%2Fsaint.ssu.ac.kr%2FwebSSO%2Fsso.jsp" class="app-button" target="_blank" rel="noopener noreferrer">
                 <div class="app-icon">
                     <img src="icons/SSU.png" alt="SSU 로고" class="icon-img">
                 </div>
@@ -107,47 +36,49 @@
             </a>
             
             
-            <a href="https://account.everytime.kr/login" class="app-button" target="_blank">
-                <div class="app-icon">▶️</div>
+            <a href="https://account.everytime.kr/login" class="app-button" target="_blank" rel="noopener noreferrer">
+                <div class="app-icon" aria-hidden="true">▶️</div>
                 <div class="app-name">EveryTime</div>
             </a>
             
-            <a href="https://www.deepseek.com/en" class="app-button" target="_blank">
-                <div class="app-icon">✉️</div>
+            <a href="https://www.deepseek.com/en" class="app-button" target="_blank" rel="noopener noreferrer">
+                <div class="app-icon" aria-hidden="true">✉️</div>
                 <div class="app-name">Deepseek</div>
             </a>
-	    <a href=https://www.mycompiler.io/ko/new/cpp" class="app-button" target="_blank">
-		    <div class="app-icon">💻</div>
-		    <div class+"app-name">C++</div>
-	    </a>
-            <a href="https://oasis.ssu.ac.kr/" class="app-button" target="_blank">
-                <div class="app-icon">📚</div>
+
+            <a href="https://www.mycompiler.io/ko/new/cpp" class="app-button" target="_blank" rel="noopener noreferrer">
+                <div class="app-icon" aria-hidden="true">💻</div>
+                <div class="app-name">C++</div>
+            </a>
+            <a href="https://oasis.ssu.ac.kr/" class="app-button" target="_blank" rel="noopener noreferrer">
+                <div class="app-icon" aria-hidden="true">📚</div>
                 <div class="app-name">SSU Library</div>
             </a>
             <a href="https://solved.ac/en" class="app-button" target="_blank">
-                <div class="app-icon">💻</div>
+                <div class="app-icon" aria-hidden="true">💻</div>
                 <div class="app-name">ProblemSolve</div>
             </a>
 
-             <a href="https://ha-min1.github.io/webgame/" class="app-button" target="_blank">
-                <div class="app-icon">✉️</div>
-                <div class="app-name">벽돌 깨기</div>
-            </a>
-<a href="https://www.instagram.com/" class="app-button" target="_blank">
-  <div class="app-icon">
-    <img src="icons/instagram.png" alt="Instagram logo" class="icon-img">
-  </div>
-  <div class="app-name">Instagram</div>
-</a>
+                        <a href="https://ha-min1.github.io/webgame/" class="app-button" target="_blank" rel="noopener noreferrer">
+                                <div class="app-icon" aria-hidden="true">🎮</div>
+                                <div class="app-name">벽돌 깨기</div>
+                        </a>
+
+                        <a href="https://www.instagram.com/" class="app-button" target="_blank" rel="noopener noreferrer">
+                            <div class="app-icon">
+                                <img src="icons/instagram.png" alt="Instagram logo" class="icon-img">
+                            </div>
+                            <div class="app-name">Instagram</div>
+                        </a>
         </div>
         
-        <div class="instructions">
+                </main>
+
+                <section class="instructions" aria-labelledby="install-heading">
              <div class="badge">
-    <a href="https://github.com/Ha-min1" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">
-              Developer · Hamin
-    </a>
+        <a href="https://github.com/Ha-min1" target="_blank" rel="noopener noreferrer" class="badge-link">Developer · Hamin</a>
              </div>
-            <h3>📱 iOS에 앱으로 설치하는 법</h3>
+                        <h3 id="install-heading">📱 iOS에 앱으로 설치하는 법</h3>
             <ol>
                 <li>Safari 브라우저에서 이 페이지 열기</li>
                 <li>공유 버튼(⬆️) 누르기</li>
@@ -155,10 +86,7 @@
                 <li>추가 버튼 누르기</li>
             </ol>
             <p>추가된 아이콘을 통해 접속할 수 있습니다!</p>
-            <p>추가 문의는 <a target="_blank" rel="noreferrer noopener" 
-                          href="mailto:johamin3624@naver.com?subject=%5B문의%5D%20내%20사이트%20런처%20관련&amp;
-                          body=안녕하세요%20하민님%2C%0A%0A아래%20양식을%20참고해%20문의%20남겨주세요.%0A%0A-%20이름%3A%0A-%20문의%20주제%3A%0A-%20상세%20내용%3A%0A%0A감사합니다." 
-                          class="" aria-label="이메일로 문의하기" node="[object Object]">이메일로 문의하기</a>에서 작성해주세요!</p>
+                        <p>추가 문의는 <a target="_blank" rel="noreferrer noopener" href="mailto:johamin3624@naver.com?subject=%5B문의%5D%20내%20사이트%20런처%20관련" class="link-mail" aria-label="이메일로 문의하기">이메일로 문의하기</a>에서 작성해주세요!</p>
         </div>
     </div>
 
@@ -175,8 +103,8 @@
                 });
             });
         }
-        
-        // 각 버튼에 클릭 효과 추가
+
+        // 터치/키보드 접근성: 버튼 클릭 애니메이션 (부드럽게)
         document.querySelectorAll('.app-button').forEach(button => {
             button.addEventListener('click', function() {
                 this.style.transform = 'scale(0.95)';

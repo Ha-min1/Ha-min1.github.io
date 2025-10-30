@@ -1,0 +1,52 @@
+/* styles.css
+   Clean, responsive styles for Sites Collector
+*/
+:root{
+  --bg-1: #667eea;
+  --bg-2: #764ba2;
+  --card-bg: rgba(255,255,255,0.12);
+  --card-border: rgba(255,255,255,0.18);
+  --text: #ffffff;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family: 'Apple SD Gothic Neo', system-ui, -apple-system, 'Segoe UI', Roboto, 'Noto Sans KR', sans-serif;
+  color:var(--text);
+  background: linear-gradient(135deg,var(--bg-1) 0%, var(--bg-2) 100%);
+  -webkit-font-smoothing:antialiased;
+  padding:20px;
+}
+.skip-link{position:absolute;left:-999px;top:auto;width:1px;height:1px;overflow:hidden}
+.skip-link:focus{position:static;margin:10px 20px;padding:8px;background:#fff;color:#000;border-radius:6px}
+.container{max-width:980px;margin:0 auto}
+.site-header{padding:26px 12px;text-align:center}
+.site-title{font-size:28px;margin:0;text-shadow:0 1px 2px rgba(0,0,0,0.25)}
+.site-sub{margin:6px 0 0;color:rgba(255,255,255,0.92);font-size:13px}
+.app-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:18px}
+.app-button{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:18px;border-radius:14px;text-decoration:none;color:var(--text);
+  background:var(--card-bg);border:1px solid var(--card-border);
+  box-shadow:0 6px 18px rgba(0,0,0,0.12);transition:transform .16s ease,background .12s ease;
+  min-height:96px;
+}
+.app-button:hover,.app-button:focus{transform:translateY(-6px);outline:none}
+.app-button:active,.app-button.pressed{transform:scale(.98)}
+.app-icon{font-size:36px;margin-bottom:10px}
+.icon-img{width:48px;height:48px;object-fit:contain;display:block;border-radius:8px}
+.app-name{font-weight:700;font-size:14px;line-height:1;margin-top:6px}
+.instructions{background:rgba(255,255,255,0.08);border-radius:12px;padding:18px;margin-top:28px;color:rgba(255,255,255,0.95)}
+.badge{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.16);font-size:12px}
+.badge-link{color:inherit;text-decoration:none}
+.link-mail{color:#fff;text-decoration:underline;text-underline-offset:3px}
+
+@media (max-width:420px){
+  .site-title{font-size:20px}
+  .app-button{padding:14px;min-height:84px}
+  .icon-img{width:40px;height:40px}
+}
+
+/* small accessibility improvements */
+.app-button:focus{box-shadow:0 0 0 3px rgba(255,255,255,0.08), 0 6px 18px rgba(0,0,0,0.14)}
