@@ -48,6 +48,14 @@ npm run dev
 node server.js
 ```
 
+### 프론트엔드(별도 호스팅)에서 사용하는 경우
+- 프론트엔드를 GitHub Pages 등 다른 호스트에서 제공하면 브라우저의 동일 출처 정책 때문에 `/api/messages` 같은 상대 경로 요청이 실패합니다. 이때는 `index.html`의 `<meta name="api-base" content="http://<서버 호스트>:3000">` 를 설정하거나, 프록시를 구성하세요.
+- 개발 시 로컬 서버로 접근하려면 `index.html`에 다음을 추가하세요:
+```html
+<meta name="api-base" content="http://localhost:3000">
+```
+
+
 ## API 엔드포인트
 
 ### GET /api/messages

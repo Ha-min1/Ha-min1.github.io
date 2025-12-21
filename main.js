@@ -4,6 +4,14 @@ const messagesContainer = document.getElementById('messages');
 const messageInput = document.getElementById('messageInput');
 const sendButton = document.getElementById('sendButton');
 
+// API base 설정: <meta name="api-base" content="http://localhost:3000"> 를 통해 오버라이드 가능
+const API_BASE = (document.querySelector('meta[name="api-base"]') || {}).content || '';
+
+function apiUrl(path) {
+    // API_BASE가 빈 문자열이면 상대 경로 사용
+    return (API_BASE ? API_BASE.replace(/\/$/, '') : '') + path;
+}
+
 // 메시지 렌더링 함수
 function renderMessage(message) {
     const messageDiv = document.createElement('div');
@@ -25,7 +33,11 @@ function renderMessage(message) {
 // 메시지 목록 불러오기 (GET /api/messages)
 async function loadMessages() {
     try {
-        const response = await fetch('/api/messages');
+        const response = await fetch(apiUrl('/api/messages'));
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
         
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -63,7 +75,7 @@ async function sendMessage() {
         sendButton.disabled = true;
         sendButton.textContent = '전송 중...';
         
-        const response = await fetch('/api/messages', {
+        const response = await fetch(apiUrl('/api/messages'), {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
