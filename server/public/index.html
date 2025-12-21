@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>USEFULWEB — 빠른 사이트 런처</title>
+    <meta name="description" content="자주 사용하는 사이트를 빠르게 여는 개인 런처입니다. PWA로 홈 화면에 추가할 수 있습니다.">
+    <meta name="theme-color" content="#4CAF50">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="apple-touch-icon" href="/icons/icon-192.png">
+    <link rel="icon" href="/icons/icon-192.png">
+    <link rel="stylesheet" href="/styles.css">
+    <meta name="api-base" content="">
+</head>
+<body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div class="container">
+        <header class="site-header">
+            <h1 class="site-title">Sites Collector</h1>
+            <p class="site-sub">자주 쓰는 사이트를 한 곳에 모아 빠르게 이동</p>
+        </header>
+        
+        <main id="main">
+        <div class="app-grid">
+
+
+            <a href="https://kuis.konkuk.ac.kr/index.do" class="app-button" target="_blank" rel="noopener noreferrer">
+                <div class="app-icon">
+                    <img src="/icons/건국대logo.png" alt="건국대 로고" class="icon-img">
+                </div>
+                <div class="app-name">건국대 홈페이지</div>
+            </a>
+            
+            <a href="https://portal.konkuk.ac.kr/" class="app-button" target="_blank" rel="noopener noreferrer">
+                <div class="app-icon">
+                    <img src="/icons/건국대logo.png" alt="건국대 로고" class="icon-img">
+                </div>
+                <div class="app-name">건국대 포털</div>
+            </a>
+            
+            
+            <a href="https://account.everytime.kr/login" class="app-button" target="_blank" rel="noopener noreferrer">
+                <div class="app-icon" aria-hidden="true">▶️</div>
+                <div class="app-name">EveryTime</div>
+            </a>
+            
+            <a href="https://chat.deepseek.com/" class="app-button" target="_blank" rel="noopener noreferrer">
+                <div class="app-icon" aria-hidden="true">✉️</div>
+                <div class="app-name">Deepseek</div>
+            </a>
+
+            <a href="https://www.mycompiler.io/ko/new/cpp" class="app-button" target="_blank" rel="noopener noreferrer">
+                <div class="app-icon" aria-hidden="true">💻</div>
+                <div class="app-name">C++</div>
+            </a>
+            <a href="https://library.konkuk.ac.kr/" class="app-button" target="_blank" rel="noopener noreferrer">
+                <div class="app-icon" aria-hidden="true">📚</div>
+                <div class="app-name">건국대 도서관</div>
+            </a>
+            <a href="https://solved.ac/en" class="app-button" target="_blank">
+                <div class="app-icon" aria-hidden="true">💻</div>
+                <div class="app-name">ProblemSolve</div>
+            </a>
+
+                        <a href="https://ha-min1.github.io/webgame/" class="app-button" target="_blank" rel="noopener noreferrer">
+                                <div class="app-icon" aria-hidden="true">🎮</div>
+                                <div class="app-name">벽돌 깨기</div>
+                        </a>
+
+                        <a href="https://www.instagram.com/" class="app-button" target="_blank" rel="noopener noreferrer">
+                            <div class="app-icon">
+                                <img src="/icons/instagram.png" alt="Instagram logo" class="icon-img">
+                            </div>
+                            <div class="app-name">Instagram</div>
+                        </a>
+        </div>
+        
+        <!-- 채팅 UI 섹션 -->
+        <section class="chat-section" id="chat-section">
+            <h2>채팅</h2>
+            <div id="chat-container">
+                <div id="messages"></div>
+                <div class="input-container">
+                    <input type="text" id="messageInput" placeholder="메시지를 입력하세요..." />
+                    <button id="sendButton">전송</button>
+                </div>
+            </div>
+        </section>
+        
+                </main>
+
+                <section class="instructions" aria-labelledby="install-heading">
+             <div class="badge">
+        <a href="https://github.com/Ha-min1" target="_blank" rel="noopener noreferrer" class="badge-link">Developer · Hamin</a>
+             </div>
+                        <h3 id="install-heading">📱 iOS에 앱으로 설치하는 법</h3>
+            <ol>
+                <li>Safari 브라우저에서 이 페이지 열기</li>
+                <li>공유 버튼(⬆️) 누르기</li>
+                <li>"홈 화면에 추가" 선택하기</li>
+                <li>추가 버튼 누르기</li>
+            </ol>
+            <p>추가된 아이콘을 통해 접속할 수 있습니다!</p>
+                        <p>추가 문의는 <a target="_blank" rel="noreferrer noopener" href="mailto:johamin3624@naver.com?subject=%5B문의%5D%20내%20사이트%20런처%20관련" class="link-mail" aria-label="이메일로 문의하기">이메일로 문의하기</a>에서 작성해주세요!</p>
+        </section>
+    </div>
+
+    <script>
+        // PWA 등록
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/sw.js')
+                .then(function(registration) {
+                    console.log('ServiceWorker 등록 성공: ', registration.scope);
+                })
+                .catch(function(error) {
+                    console.log('ServiceWorker 등록 실패: ', error);
+                });
+            });
+        }
+
+        // 터치/키보드 접근성: 버튼 클릭 애니메이션 (부드럽게)
+        document.querySelectorAll('.app-button').forEach(button => {
+            button.addEventListener('click', function() {
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 200);
+            });
+        });
+    </script>
+    
+    <!-- 채팅 기능 JS 참조 -->
+    <script src="/main.js"></script>
+</body>
+</html>
