@@ -49,6 +49,11 @@ node server.js
 ```
 
 ### 프론트엔드(별도 호스팅)에서 사용하는 경우
+- 프론트엔드를 GitHub Pages 등 다른 호스트에서 제공하면 브라우저의 동일 출처 정책 때문에 `/api/messages` 같은 상대 경로 요청이 실패합니다. 이때는 `index.html`의 `<meta name="api-base" content="http://<서버 호스트>:3000">` 를 설정하거나, 서버에서 정적 파일을 서빙하세요.
+- 본 레포에서는 **서버에서 정적 파일(server/public)** 로 프론트를 함께 서빙할 수 있게 되어 있습니다. 서버에서 열면(Codespace/로컬/서버 호스트) 채팅이 바로 작동합니다. (예: http://localhost:3000)
+
+
+### 프론트엔드(별도 호스팅)에서 사용하는 경우
 - 프론트엔드를 GitHub Pages 등 다른 호스트에서 제공하면 브라우저의 동일 출처 정책 때문에 `/api/messages` 같은 상대 경로 요청이 실패합니다. 이때는 `index.html`의 `<meta name="api-base" content="http://<서버 호스트>:3000">` 를 설정하거나, 프록시를 구성하세요.
 - 개발 시 로컬 서버로 접근하려면 `index.html`에 다음을 추가하세요:
 ```html

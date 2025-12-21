@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="/styles.css">
     <!-- API base: 빈값이면 상대경로('/api/..') 사용. 개발 시 localhost로 설정하려면 아래 메타 태그를 수정하세요 -->
     <meta name="api-base" content="">
+    <!-- 서버 URL (기본: 로컬 개발 서버). 필요하면 배포 환경에 맞게 변경하세요 -->
+    <meta name="server-url" content="http://localhost:3000">
 </head>
 <body>
     <a class="skip-link" href="#main">Skip to content</a>
@@ -79,6 +81,12 @@
         <!-- 채팅 UI 섹션 -->
         <section class="chat-section" id="chat-section">
             <h2>채팅</h2>
+
+            <!-- GitHub Pages 등 다른 origin에서 열렸을 때 안내 배너 -->
+            <div id="server-note" style="display:none;background:rgba(255,255,255,0.06);padding:12px;border-radius:8px;margin-bottom:12px;color:#fff;">
+                채팅은 서버에서 제공됩니다. <a id="server-link" href="#" style="color:#fff;text-decoration:underline">서버에서 열기 (권장)</a>
+            </div>
+
             <div id="chat-container">
                 <div id="messages"></div>
                 <div class="input-container">
@@ -133,5 +141,29 @@
     
     <!-- 채팅 기능 JS 참조 -->
     <script src="main.js"></script>
+
+    <script>
+        // 다른 origin(GitHub Pages)에서 접속했을 때 사용자 안내
+        (function(){
+            try {
+                const serverUrl = (document.querySelector('meta[name="server-url"]') || {}).content || 'http://localhost:3000';
+                const apiBase = (document.querySelector('meta[name="api-base"]') || {}).content || '';
+                const hostname = window.location.hostname;
+
+                // 같지 않은 호스트에서 열렸고, api-base가 비어있다면 안내를 표시
+                const serverHost = (new URL(serverUrl)).hostname;
+                if (apiBase === '' && hostname !== serverHost && hostname !== 'localhost' && hostname !== '127.0.0.1') {
+                    const note = document.getElementById('server-note');
+                    const link = document.getElementById('server-link');
+                    link.href = serverUrl;
+                    link.target = '_blank';
+                    note.style.display = 'block';
+                }
+            } catch (e) {
+                // 안전하게 실패
+                console.error('server-note init failed', e);
+            }
+        })();
+    </script>
 </body>
 </html>
