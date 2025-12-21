@@ -1,4 +1,3 @@
-version: "3.8"
 services:
   mariadb:
     image: mariadb:10.11
@@ -12,5 +11,30 @@ services:
       - "3306:3306"
     volumes:
       - mariadb_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+  chat-server:
+    build: ./server
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      PORT: 3000
+      DB_HOST: mariadb
+      DB_USER: dl_user
+      DB_PASSWORD: dl_pass
+      DB_NAME: dl_chat
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+
 volumes:
   mariadb_data:
+    driver: local
+

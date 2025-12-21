@@ -40,6 +40,13 @@ async function initDatabase() {
             )
         `);
         
+        // 시드: 메시지 테이블이 비어있으면 초기 시스템 메시지 삽입
+        const [countRows] = await connection.execute('SELECT COUNT(*) as cnt FROM messages');
+        if (countRows && countRows[0] && countRows[0].cnt === 0) {
+            await connection.execute("INSERT INTO messages (user, text) VALUES ('system', '채팅 시스템이 시작되었습니다.')");
+            console.log('✓ Seeded initial message into messages table');
+        }
+
         console.log('✓ Database initialized successfully');
         connection.release();
     } catch (err) {

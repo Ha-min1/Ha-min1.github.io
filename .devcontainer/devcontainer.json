@@ -1,0 +1,10 @@
+{
+  "name": "Chat Server Devcontainer",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  "postStartCommand": "./scripts/codespace-poststart.sh || true",
+  "customizations": {
+    "vscode": {
+      "extensions": ["ms-azuretools.vscode-docker"]
+    }
+  }
+}

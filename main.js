@@ -1,9 +1,8 @@
 // main.js - 채팅 API 연동 로직
 
-const messagesContainer = document.getElementById('messagesContainer');
+const messagesContainer = document.getElementById('messages');
 const messageInput = document.getElementById('messageInput');
 const sendButton = document.getElementById('sendButton');
-const loadingIndicator = document.getElementById('loadingIndicator');
 
 // 메시지 렌더링 함수
 function renderMessage(message) {
@@ -26,7 +25,6 @@ function renderMessage(message) {
 // 메시지 목록 불러오기 (GET /api/messages)
 async function loadMessages() {
     try {
-        loadingIndicator.style.display = 'block';
         const response = await fetch('/api/messages');
         
         if (!response.ok) {
@@ -46,12 +44,9 @@ async function loadMessages() {
             // 스크롤을 최하단으로 이동
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
         }
-        
-        loadingIndicator.style.display = 'none';
     } catch (error) {
         console.error('메시지 로드 실패:', error);
         messagesContainer.innerHTML = '<div class="loading" style="color: red;">메시지를 불러오는 데 실패했습니다. 서버를 확인해주세요.</div>';
-        loadingIndicator.style.display = 'none';
     }
 }
 

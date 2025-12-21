@@ -48,5 +48,120 @@ body{
   .icon-img{width:40px;height:40px}
 }
 
-/* small accessibility improvements */
+/* 채팅 섹션 스타일 */
+.chat-section {
+  background: rgba(255,255,255,0.08);
+  border-radius: 12px;
+  padding: 20px;
+  margin-top: 30px;
+  border: 1px solid rgba(255,255,255,0.16);
+}
+
+.chat-section h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 20px;
+  color: rgba(255,255,255,0.95);
+}
+
+#chat-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+#messages {
+  background: rgba(0,0,0,0.1);
+  border-radius: 8px;
+  padding: 15px;
+  height: 300px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.message {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 12px;
+  border-radius: 8px;
+  max-width: 70%;
+  word-wrap: break-word;
+}
+
+.message.user {
+  align-self: flex-end;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.message.other {
+  align-self: flex-start;
+  background: rgba(255,255,255,0.15);
+  color: rgba(255,255,255,0.95);
+}
+
+.message-time {
+  font-size: 12px;
+  opacity: 0.7;
+  margin-top: 4px;
+}
+
+.input-container {
+  display: flex;
+  gap: 10px;
+}
+
+#messageInput {
+  flex: 1;
+  padding: 12px;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 8px;
+  background: rgba(255,255,255,0.1);
+  color: white;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+#messageInput:focus {
+  border-color: rgba(255,255,255,0.4);
+  background: rgba(255,255,255,0.15);
+}
+
+#messageInput::placeholder {
+  color: rgba(255,255,255,0.5);
+}
+
+#sendButton {
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+#sendButton:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+#sendButton:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+#sendButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.loading {
+  text-align: center;
+  color: rgba(255,255,255,0.5);
+  padding: 20px;
+}/* small accessibility improvements */
 .app-button:focus{box-shadow:0 0 0 3px rgba(255,255,255,0.08), 0 6px 18px rgba(0,0,0,0.14)}
