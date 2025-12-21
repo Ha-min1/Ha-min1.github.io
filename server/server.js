@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const path = require('path');
 const cors = require('cors');
 const morgan = require('morgan');
 const mysql = require('mysql2/promise');
@@ -53,6 +54,9 @@ async function initDatabase() {
         console.error('✗ Database initialization error:', err);
     }
 }
+
+// 정적 파일 서빙 (테스트용)
+app.use(express.static(path.join(__dirname, 'public')));
 
 // 헬스 체크 엔드포인트
 app.get('/_health', (req, res) => res.send('OK'));
