@@ -77,25 +77,8 @@
                             <div class="app-name">Instagram</div>
                         </a>
         </div>
-        
-        <!-- 채팅 UI 섹션 -->
-        <section class="chat-section" id="chat-section">
-            <h2>채팅</h2>
 
-            <!-- GitHub Pages 등 다른 origin에서 열렸을 때 안내 배너 -->
-            <div id="server-note" style="display:none;background:rgba(255,255,255,0.06);padding:12px;border-radius:8px;margin-bottom:12px;color:#fff;">
-                채팅은 서버에서 제공됩니다. <a id="server-link" href="#" style="color:#fff;text-decoration:underline">서버에서 열기 (권장)</a>
-            </div>
-
-            <div id="chat-container">
-                <div id="messages"></div>
-                <div class="input-container">
-                    <input type="text" id="messageInput" placeholder="메시지를 입력하세요..." />
-                    <button id="sendButton">전송</button>
-                </div>
-            </div>
-        </section>
-        
+        <!-- 채팅 UI는 제거되었습니다 (2025-12-25). 채팅 서버는 백엔드에 유지되어 있으며, 프론트엔드는 필요 시 README의 지침을 따라 재적용하세요. -->
                 </main>
 
                 <section class="instructions" aria-labelledby="install-heading">
@@ -104,9 +87,9 @@
                </div>
               <!-- Developer profile / project info (moved here per request) -->
               <div class="dev-profile" aria-label="Developer profile">
-                 <div class="dev-title">Hamin ChatLab</div>
-                 <div class="dev-desc">실시간 채팅 연구 · 개인 런처 및 실험 프로젝트 — 2025-08-26부터 지속 발전 중</div>
-                 <div class="dev-meta">숭실대학교 컴퓨터학부 재학 (2025-03-01 ~ 2026-01-21) · 건국대학교(서울) KU자유전공학부 신입 (2026-01-21~)</div>
+                 <div class="dev-title">Hamin · Hamin ChatLab</div>
+                 <div class="dev-desc">실시간 채팅 연구 · 개인 런처 및 실험 프로젝트\n2025-08-26부터 지속 발전 중</div>
+                 <div class="dev-meta">숭실대학교 컴퓨터학부 재학 (2025-03-01 ~ 2026-01-21)\n건국대학교(서울) KU자유전공학부 신입 (2026-01-21~)</div>
                  <div class="dev-links"><a href="https://github.com/Ha-min1" target="_blank" rel="noopener noreferrer">GitHub</a> · <a href="https://www.acmicpc.net/user/johamin3624" target="_blank" rel="noopener noreferrer">Baekjoon</a></div>
                  <div class="dev-lang">주 언어: C / C++</div>
               </div>
@@ -147,31 +130,6 @@
         });
     </script>
     
-    <!-- 채팅 기능 JS 참조 -->
-    <script src="main.js"></script>
-
-    <script>
-        // 다른 origin(GitHub Pages)에서 접속했을 때 사용자 안내
-        (function(){
-            try {
-                const serverUrl = (document.querySelector('meta[name="server-url"]') || {}).content || 'http://localhost:3000';
-                const apiBase = (document.querySelector('meta[name="api-base"]') || {}).content || '';
-                const hostname = window.location.hostname;
-
-                // 같지 않은 호스트에서 열렸고, api-base가 비어있다면 안내를 표시
-                const serverHost = (new URL(serverUrl)).hostname;
-                if (apiBase === '' && hostname !== serverHost && hostname !== 'localhost' && hostname !== '127.0.0.1') {
-                    const note = document.getElementById('server-note');
-                    const link = document.getElementById('server-link');
-                    link.href = serverUrl;
-                    link.target = '_blank';
-                    note.style.display = 'block';
-                }
-            } catch (e) {
-                // 안전하게 실패
-                console.error('server-note init failed', e);
-            }
-        })();
-    </script>
+    <!-- 채팅 관련 클라이언트 스크립트는 제거되었습니다 -->
 </body>
 </html>

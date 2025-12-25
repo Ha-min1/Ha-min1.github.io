@@ -1,11 +1,4 @@
 /* Copied styles.css (abbreviated) */
 :root{--bg-1:#f3971e;--bg-2:#764ba2;--card-bg:rgba(255,255,255,0.12);--card-border:rgba(255,255,255,0.18);--text:#ffffff}
 *{box-sizing:border-box}html,body{height:100%}body{margin:0;font-family:system-ui,-apple-system,Arial;color:var(--text);background:linear-gradient(135deg,var(--bg-1) 0%, var(--bg-2) 100%);padding:20px}
-/* chat styles */
-.chat-section{background:rgba(255,255,255,0.08);border-radius:12px;padding:20px;margin-top:30px;border:1px solid rgba(255,255,255,0.16)}
-#messages{background:rgba(0,0,0,0.1);border-radius:8px;padding:15px;height:300px;overflow:auto}
-.message.user{align-self:flex-end;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:#fff}
-.message.other{align-self:flex-start;background:rgba(255,255,255,0.15);color:rgba(255,255,255,0.95)}
-#messageInput{flex:1;padding:12px;border-radius:8px;background:rgba(255,255,255,0.1);color:#fff}
-#sendButton{padding:12px 24px;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:#fff;border-radius:8px;border:none}
-.loading{text-align:center;color:rgba(255,255,255,0.5);padding:20px}
+/* 채팅 관련 스타일은 제거되었습니다 (UI 제거) */
