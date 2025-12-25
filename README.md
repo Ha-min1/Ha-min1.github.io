@@ -18,12 +18,11 @@ iOS 설치 가이드 섹션
 아래는 현재까지 제가 작업한 내용과, 다른 개발자가 이어서 작업할 때 유용한 정보입니다.
 
 ### 현재 상태 요약
-- 채팅 서버(Express + MariaDB) 추가 및 Docker-compose로 전체 스택 구성 완료
+- 채팅 서버(Express + MariaDB)는 백엔드로 존재하며 Docker-compose로 전체 스택을 구성했습니다. **프론트엔드의 채팅 UI는 유지보수 및 보안 이유로 현재 `server/public`에서 제거**되어 있으며, 필요 시 `CHAT_SETUP.md`의 지침을 따라 재적용할 수 있습니다.
 - MariaDB 컨테이너 자동 시작 및 `server` 시작 시 DB 연결 확인 스크립트(`server/bin/ensure-db.js`) 추가
 - DB 초기화 시 기본 시스템 메시지로 시드 삽입 추가
-- 프론트엔드를 `server/public/`로 복사하여 서버에서 정적 파일을 제공하도록 구성(동일 origin에서 채팅 사용 가능)
+- 프론트엔드를 `server/public/`로 복사하여 서버에서 정적 파일을 제공하도록 구성(채팅 UI는 현재 제외됨)
 - Codespace/post-start 자동화(`.devcontainer/devcontainer.json`, `scripts/codespace-poststart.sh`) 추가 — Codespace 시작 시 Docker로 서비스 자동 기동 시도 및 로그 파일 생성
-- 테스트 페이지: `http://<host>:3000/test-chat.html` 또는 `http://<host>:3000/` (서버 호스트에서 정적 페이지 제공)
 
 ### 빠른 실행(로컬 개발)
 1. Docker(권장):
