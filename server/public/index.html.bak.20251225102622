@@ -73,11 +73,6 @@
                             </div>
                             <div class="app-name">Instagram</div>
                         </a>
-        
-            <a href="https://test.local" class="app-button" target="_blank" rel="noopener noreferrer">
-                <div class="app-icon" aria-hidden="true">🔗</div>
-                <div class="app-name">TestSite</div>
-            </a>
         </div>
 
         <!-- 약력 섹션 (사이트 모음 다음에 표시됨) -->

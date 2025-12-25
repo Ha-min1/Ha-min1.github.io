@@ -62,3 +62,27 @@ iOS 설치 가이드 섹션
 ---
 
 원하시면 이 내용을 별도 `CONTRIBUTING.md`로 분리하거나, 각 추천 작업을 GitHub 이슈로 생성해 드리겠습니다.
+
+### 채팅 UI — 프론트엔드 임시 제거 (2025-12-25)
+프로젝트에서 채팅 UI를 `server/public/index.html`로부터 임시로 제거했습니다. 채팅 서버(Express + MariaDB)는 계속 존재하며, 프론트엔드 재적용 방법은 아래와 같습니다.
+
+재적용 방법:
+1. `server/public/index.html`에 아래 HTML 블록을 원래 위치(사이트 모음 바로 다음)에 다시 삽입합니다.
+
+```html
+<section class="chat-section" id="chat-section">
+    <h2>채팅</h2>
+    <div id="chat-container">
+        <div id="messages"></div>
+        <div class="input-container">
+            <input type="text" id="messageInput" placeholder="메시지를 입력하세요..." />
+            <button id="sendButton">전송</button>
+        </div>
+    </div>
+</section>
+```
+
+2. 페이지 하단에 `<script src="/main.js"></script>`를 복원합니다.
+3. 서버를 실행하고(예: `docker-compose up -d` 또는 `cd server && npm run dev`) 정상 동작을 확인하세요.
+
+더 자세한 서버 설정은 `CHAT_SETUP.md`를 참고하세요. 이 UI는 현재 유지보수 비용을 줄이기 위해 임시 제거되어 있으며, 필요 시 다시 활성화할 수 있습니다.
