@@ -42,7 +42,7 @@ iOS 설치 가이드 섹션
 ### 파일/엔트리 포인트
 - 서버: `server/server.js` (Express app)
 - DB 자동시작 스크립트: `server/bin/ensure-db.js`
-- 정적 프론트: `server/public/` (index.html, main.js, styles.css 등)
+- 정적 프론트: `server/public/` (index.html, main.js 등)
 - Docker compose: `docker-compose.yml`
 - Codespace helper: `scripts/codespace-poststart.sh`
 
