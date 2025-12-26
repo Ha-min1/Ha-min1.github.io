@@ -148,28 +148,65 @@
             </a>
         </div>
 
-        <!-- 약력 섹션 (사이트 모음 다음에 표시됨) -->
-        <section class="bio" id="bio">
-            <h2>약력</h2>
-            <div class="bio-grid">
-                <div class="bio-card">
-                    <div class="bio-title">Hamin ChatLab</div>
-                    <div class="bio-body">실시간 채팅 연구 · 개인 런처 및 실험 프로젝트 — 2025-08-26부터 지속 발전 중</div>
+        <!-- 약력 섹션 (업데이트: 반응형, 스크롤 리빌) -->
+        <section class="bio enhanced-bio" id="bio" aria-labelledby="bio-heading">
+            <h2 id="bio-heading">약력</h2>
+            <div class="bio-grid enhanced">
+                <div class="bio-left" aria-hidden="false">
+                    <div class="bio-title-large">Hamin · Hamin ChatLab</div>
+                    <div class="bio-sub">실시간 채팅 연구 · 개인 런처 및 실험 프로젝트<br class="mobile-br">2025-08-26부터 지속 발전 중</div>
+                    <div class="bio-links">
+                        <div class="links-inline">
+                            <a href="https://github.com/Ha-min1" target="_blank" rel="noopener noreferrer">GitHub</a>
+                            ·
+                            <a href="https://www.acmicpc.net/user/Ha-min1" target="_blank" rel="noopener noreferrer">Baekjoon</a>
+                        </div>
+                        <div class="bio-lang">주 언어: <strong>C / C++</strong></div>
+                    </div>
                 </div>
-                <div class="bio-card">
-                    <div class="bio-title">학력</div>
-                    <div class="bio-body">숭실대학교 컴퓨터학부 재학 (2025-03-01 ~ 2026-01-21)<br>건국대학교(서울) KU자유전공학부 신입 (2026-01-21~)</div>
+
+                <div id="career-list" class="career-list" role="list" aria-live="polite" aria-label="경력 리스트">
+                    <!-- 동적 렌더링: JS가 이 영역에 경력 아이템(.career-item)을 추가합니다 -->
                 </div>
-                <div class="bio-card">
-                    <div class="bio-title">활동・레포</div>
-                    <div class="bio-body"><a href="https://github.com/Ha-min1" target="_blank" rel="noopener noreferrer">GitHub</a> · <a href="https://www.acmicpc.net/user/Ha-min1" target="_blank" rel="noopener noreferrer">Baekjoon</a></div>
-                </div>
-                <div class="bio-card">
-                    <div class="bio-title">주 언어</div>
-                    <div class="bio-body">C / C++</div>
-                </div>
+                <!-- 템플릿: JS로 복제하여 사용 -->
+                <template id="career-tpl">
+                    <div class="career-item" role="listitem" tabindex="0" aria-hidden="true">
+                        <div class="career-card">
+                            <div class="career-icon" aria-hidden="true">🏷️</div>
+                            <div class="career-meta">
+                                <div class="career-title">제목</div>
+                                <div class="career-time">기간</div>
+                                <div class="career-desc">설명</div>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+
+                <noscript>
+                    <div class="career-item">
+                        <div class="career-card">
+                            <div class="career-icon">🎓</div>
+                            <div class="career-meta">
+                                <div class="career-title">숭실대학교 컴퓨터학부</div>
+                                <div class="career-time">2025-03-01 ~ 2026-01-21</div>
+                                <div class="career-desc">학부 재학</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="career-item">
+                        <div class="career-card">
+                            <div class="career-icon">🎓</div>
+                            <div class="career-meta">
+                                <div class="career-title">건국대학교(서울) KU자유전공학부</div>
+                                <div class="career-time">2026-01-21 ~ 현재</div>
+                                <div class="career-desc">KU자유전공학부 신입</div>
+                            </div>
+                        </div>
+                    </div>
+                </noscript>
             </div>
-        </section> 
+        </section>
+        
         
                 </main>
 
@@ -212,6 +249,91 @@
                 }, 200);
             });
         });
+
+        // 스크롤 리빌 + 동적 렌더: careers.json을 불러와 카드 생성 및 인터랙션 추가
+        (function() {
+            const careerContainer = document.getElementById('career-list');
+            const tpl = document.getElementById('career-tpl');
+            const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+            function iconFor(type) {
+                switch(type){
+                    case 'school': return '🎓';
+                    case 'research': return '🔬';
+                    default: return '🏷️';
+                }
+            }
+
+            function makeItem(data, index){
+                const node = tpl.content.firstElementChild.cloneNode(true);
+                node.setAttribute('data-id', data.id || index);
+                node.querySelector('.career-icon').textContent = iconFor(data.type);
+                const meta = node.querySelector('.career-meta');
+                meta.querySelector('.career-title').textContent = data.title;
+                meta.querySelector('.career-time').textContent = data.time;
+                meta.querySelector('.career-desc').textContent = data.desc;
+
+                node.tabIndex = 0;
+                node.setAttribute('aria-hidden', 'true');
+                node.querySelector('.career-card').setAttribute('aria-expanded', 'false');
+
+                // click / keyboard: 토글 확장 (간단한 시각적 강조 및 aria 업데이트)
+                function toggleExpand() {
+                    const expanded = node.classList.toggle('expanded');
+                    node.querySelector('.career-card').setAttribute('aria-expanded', expanded ? 'true' : 'false');
+                }
+                node.addEventListener('click', toggleExpand);
+                node.addEventListener('keydown', (ev) => {
+                    if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); toggleExpand(); }
+                });
+
+                return node;
+            }
+
+            // IntersectionObserver: 항목이 보이면 in-view 클래스를 넣고 aria-hidden 해제
+            const io = new IntersectionObserver((entries, obs) => {
+                entries.forEach(entry => {
+                    const el = entry.target;
+                    if (entry.isIntersecting) {
+                        el.classList.add('in-view');
+                        el.setAttribute('aria-hidden', 'false');
+                        if (!prefersReduced) obs.unobserve(el);
+                    }
+                });
+            }, { threshold: 0.18, rootMargin: '0px 0px -8% 0px' });
+
+            // bio-left reveal (unchanged behavior)
+            const left = document.querySelector('.bio-left');
+            if (left) {
+                const leftIo = new IntersectionObserver((entries, obs) => {
+                    entries.forEach(e => {
+                        if (e.isIntersecting) {
+                            e.target.classList.add('in-view');
+                            obs.disconnect();
+                        }
+                    });
+                }, { threshold: 0.2 });
+                leftIo.observe(left);
+            }
+
+            // 데이터 로드 및 렌더
+            fetch('/data/careers.json').then(r => r.ok ? r.json() : Promise.reject('failed')).then(list => {
+                list.forEach((item, idx) => {
+                    const el = makeItem(item, idx);
+                    careerContainer.appendChild(el);
+                    // 즉시 보이게 할지, 애니메이션할지 결정
+                    if (prefersReduced) {
+                        el.classList.add('in-view');
+                        el.setAttribute('aria-hidden', 'false');
+                    } else {
+                        io.observe(el);
+                    }
+                });
+            }).catch(err => {
+                // 실패 시 이미 있는 noscript 내용(대체) 혹은 로그
+                console.warn('careers.json 로드 실패:', err);
+            });
+        })();
     </script>
     
     <!-- 채팅 기능은 임시로 제거됨: 관련 코드 및 설정은 README.md의 '채팅 UI — 프론트엔드 임시 제거' 섹션으로 옮겨졌습니다. -->
