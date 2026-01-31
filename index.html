@@ -5,11 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hamin ChatLab — Sites & Chat</title>
     <meta name="description" content="Hamin의 개인 사이트 런처 및 실시간 채팅 실험 프로젝트입니다.">
-    <meta name="theme-color" content="#4CAF50">
+    <meta name="theme-color" content="#0b0d10" id="meta-theme-color">
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icons/icon-192.png">
     <link rel="icon" href="icons/icon-192.png">
     <link rel="stylesheet" href="/styles.css">
+
+    <!-- Open Graph / Social -->
+    <meta property="og:title" content="Hamin ChatLab — Sites & Chat">
+    <meta property="og:description" content="Hamin의 개인 사이트 런처 — 자주 쓰는 사이트를 빠르게 접속하세요.">
+    <meta property="og:image" content="/icons/icon-192.png">
+    <meta property="og:url" content="https://ha-min1.github.io/">
+    <meta name="twitter:card" content="summary_large_image">
+
     <!-- API base: 빈값이면 상대경로('/api/..') 사용. 개발 시 localhost로 설정하려면 아래 메타 태그를 수정하세요 -->
     <meta name="api-base" content="">
     <!-- 서버 URL (기본: 로컬 개발 서버). 필요하면 배포 환경에 맞게 변경하세요 -->
@@ -21,6 +29,13 @@
         <header class="site-header">
             <h1 class="site-title">Sites Collector</h1>
             <p class="site-sub">자주 쓰는 사이트를 한 곳에 모아 빠르게 이동</p>
+
+            <div class="header-controls" role="region" aria-label="controls">
+                <input id="search" class="search-input" type="search" placeholder="검색 (예: YouTube, Gmail)" aria-label="사이트 검색">
+                <button id="add-btn" class="btn" aria-haspopup="dialog">추가 +</button>
+                <button id="theme-toggle" class="btn" aria-pressed="false" title="테마 전환">🌙</button>
+                <button id="export-btn" class="btn" title="설정 내보내기">내보내기</button>
+            </div>
         </header>
         
         <main id="main">
@@ -111,29 +126,186 @@
         </section>
     </div>
 
-    <script>
-        // PWA 등록
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function() {
-                navigator.serviceWorker.register('sw.js')
-                .then(function(registration) {
-                    console.log('ServiceWorker 등록 성공: ', registration.scope);
-                })
-                .catch(function(error) {
-                    console.log('ServiceWorker 등록 실패: ', error);
-                });
-            });
-        }
+    <!-- Add Link Modal -->
+    <div id="add-modal" class="modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="add-modal-title">
+      <div class="modal-content">
+        <h3 id="add-modal-title">링크 추가</h3>
+        <form id="add-form">
+          <label>이름 <input id="add-name" required></label>
+          <label>URL <input id="add-url" type="url" required placeholder="https://"></label>
+          <label>아이콘 (emoji 또는 이미지 URL) <input id="add-icon" placeholder="▶️ 또는 https://..."></label>
+          <div class="modal-actions">
+            <button type="submit" class="btn primary">저장</button>
+            <button type="button" class="btn" id="add-cancel">취소</button>
+          </div>
+        </form>
+        <p class="muted">항목을 길게 눌러 드래그로 재정렬 할 수 있습니다.</p>
+      </div>
+    </div>
 
-        // 터치/키보드 접근성: 버튼 클릭 애니메이션 (부드럽게)
-        document.querySelectorAll('.app-button').forEach(button => {
-            button.addEventListener('click', function() {
-                this.style.transform = 'scale(0.95)';
-                setTimeout(() => {
-                    this.style.transform = '';
-                }, 200);
-            });
+    <script>
+    (function(){
+      const STORAGE_KEY = 'hamin_links_v1';
+      const THEME_KEY = 'hamin_theme';
+      const grid = document.querySelector('.app-grid');
+      const searchInput = document.getElementById('search');
+      const addBtn = document.getElementById('add-btn');
+      const addModal = document.getElementById('add-modal');
+      const addForm = document.getElementById('add-form');
+      const addCancel = document.getElementById('add-cancel');
+      const themeToggle = document.getElementById('theme-toggle');
+      const exportBtn = document.getElementById('export-btn');
+      const metaTheme = document.getElementById('meta-theme-color');
+
+      // PWA registration
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('sw.js')
+          .then(function(registration) {
+            console.log('ServiceWorker 등록 성공: ', registration.scope);
+          })
+          .catch(function(error) {
+            console.log('ServiceWorker 등록 실패: ', error);
+          });
         });
+      }
+
+      // Helper to save/load
+      function saveLinks(links){
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(links));
+      }
+      function loadLinks(){
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if(raw) try { return JSON.parse(raw); } catch(e) { console.warn('링크 로드 실패', e); }
+        // Seed from DOM
+        const seed = Array.from(document.querySelectorAll('.app-button')).map(a => ({
+          name: a.querySelector('.app-name')?.textContent?.trim() || a.href,
+          url: a.href,
+          icon: a.querySelector('img')?.getAttribute('src') || a.querySelector('.app-icon')?.textContent?.trim() || '',
+          isImage: !!a.querySelector('img')
+        }));
+        saveLinks(seed);
+        return seed;
+      }
+
+      let links = loadLinks();
+
+      function renderLinks(filter){
+        grid.innerHTML = '';
+        const q = filter ? filter.toLowerCase() : '';
+        links.forEach((link, i) => {
+          const a = document.createElement('a');
+          a.className = 'app-button';
+          a.href = link.url;
+          a.target = '_blank';
+          a.rel = 'noopener noreferrer';
+          a.draggable = true;
+          a.setAttribute('data-index', i);
+
+          const icon = document.createElement('div');
+          icon.className = 'app-icon';
+          if(link.isImage && link.icon){
+            const img = document.createElement('img'); img.src = link.icon; img.alt = link.name + ' icon'; img.className='icon-img'; icon.appendChild(img);
+          } else {
+            icon.textContent = link.icon || '▶️';
+            icon.setAttribute('aria-hidden', 'true');
+          }
+
+          const name = document.createElement('div');
+          name.className = 'app-name';
+          name.textContent = link.name;
+
+          if(q && !(link.name.toLowerCase().includes(q) || link.url.toLowerCase().includes(q))) return;
+
+          a.appendChild(icon); a.appendChild(name);
+
+          // click visual feedback
+          a.addEventListener('click', e => {
+            a.classList.add('pressed'); setTimeout(()=>a.classList.remove('pressed'),180);
+          });
+
+          // drag events
+          a.addEventListener('dragstart', (e) => {
+            e.dataTransfer.setData('text/plain', i);
+            a.classList.add('dragging');
+          });
+          a.addEventListener('dragend', () => a.classList.remove('dragging'));
+
+          a.addEventListener('dragover', (e) => { e.preventDefault(); });
+          a.addEventListener('drop', (e) => {
+            e.preventDefault();
+            const from = Number(e.dataTransfer.getData('text/plain'));
+            const to = Number(a.getAttribute('data-index'));
+            if(!isNaN(from) && from !== to){
+              const item = links.splice(from,1)[0];
+              links.splice(to,0,item);
+              saveLinks(links);
+              renderLinks(searchInput.value);
+            }
+          });
+
+          grid.appendChild(a);
+        });
+      }
+
+      // initial render
+      renderLinks();
+
+      // search
+      searchInput.addEventListener('input', () => renderLinks(searchInput.value));
+
+      // add modal
+      addBtn.addEventListener('click', () => openModal());
+      addCancel.addEventListener('click', () => closeModal());
+      addForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const name = document.getElementById('add-name').value.trim();
+        const url = document.getElementById('add-url').value.trim();
+        const icon = document.getElementById('add-icon').value.trim();
+        if(!name || !url) return;
+        const isImage = /^https?:\/\/.+\.(png|jpg|jpeg|svg|gif)$/i.test(icon);
+        links.push({name, url, icon, isImage});
+        saveLinks(links);
+        renderLinks(searchInput.value);
+        closeModal();
+        addForm.reset();
+      });
+
+      function openModal(){ addModal.style.display='block'; addModal.setAttribute('aria-hidden','false'); document.getElementById('add-name').focus(); }
+      function closeModal(){ addModal.style.display='none'; addModal.setAttribute('aria-hidden','true'); }
+      // close on overlay click
+      addModal.addEventListener('click', (e) => { if(e.target === addModal) closeModal(); });
+
+      // export
+      exportBtn.addEventListener('click', () => {
+        const blob = new Blob([JSON.stringify(links, null, 2)], {type:'application/json'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a'); a.href = url; a.download = 'hamin_links.json'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+      });
+
+      // theme
+      function applyTheme(t){
+        if(t === 'light'){
+          document.documentElement.setAttribute('data-theme','light');
+          themeToggle.textContent = '🌞'; themeToggle.setAttribute('aria-pressed','true');
+          if(metaTheme) metaTheme.setAttribute('content','#ffffff');
+        } else {
+          document.documentElement.removeAttribute('data-theme');
+          themeToggle.textContent = '🌙'; themeToggle.setAttribute('aria-pressed','false');
+          if(metaTheme) metaTheme.setAttribute('content','#0b0d10');
+        }
+        localStorage.setItem(THEME_KEY, t);
+      }
+
+      themeToggle.addEventListener('click', () => applyTheme(localStorage.getItem(THEME_KEY) === 'light' ? 'dark' : 'light'));
+
+      // load theme
+      applyTheme(localStorage.getItem(THEME_KEY) || 'dark');
+
+      // keyboard: ESC closes modal
+      window.addEventListener('keydown', (e) => { if(e.key === 'Escape') closeModal(); });
+
+    })();
     </script>
     
     <!-- 채팅 관련 클라이언트 스크립트는 제거되었습니다 -->
